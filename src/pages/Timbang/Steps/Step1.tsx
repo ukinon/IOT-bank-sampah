@@ -57,7 +57,7 @@ export default function Step1() {
       >
         {members?.data.map((member: Member) => (
           <Option value={member.id} key={member.id}>
-            {`${member.name} - ${member.address}`}
+            {`${member.name} - ${member.address ?? "Tidak ada alamat."}`}
           </Option>
         ))}
       </Select>

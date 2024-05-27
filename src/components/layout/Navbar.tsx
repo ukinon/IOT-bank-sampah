@@ -4,6 +4,7 @@ import {
   HomeOutlined,
   UnorderedListOutlined,
   UserOutlined,
+  TransactionOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
@@ -32,6 +33,11 @@ const items: MenuItem[] = [
     key: "/member-list",
     icon: <UserOutlined />,
   },
+  {
+    label: <Link to="/transaction"> Transaksi </Link>,
+    key: "/transaction",
+    icon: <TransactionOutlined />,
+  },
 ];
 
 const App: React.FC = () => {
@@ -44,14 +50,18 @@ const App: React.FC = () => {
 
   return (
     <div className="flex flex-row items-center justify-between w-screen px-8 py-3 md:px-12">
-      <h1 className="text-xl font-bold text-primary">
-        Sampah<span className="text-black">Mu</span>
-      </h1>
+      <div className="flex flex-row items-center gap-2">
+        <img src="/logo.png" className="h-8" />
+        <h1 className="text-xl font-bold text-primary">
+          Sampah<span className="text-black">Mu</span>
+        </h1>
+      </div>
+
       <Menu
         selectedKeys={[current]}
         mode="horizontal"
         items={items}
-        className="w-1/12 md:w-2/5"
+        className="w-1/12 md:w-3/12"
       />
     </div>
   );
