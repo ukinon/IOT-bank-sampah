@@ -40,7 +40,7 @@ const items: MenuItem[] = [
   },
 ];
 
-const App: React.FC = () => {
+const Navbar: React.FC = () => {
   const location = useLocation();
   const [current, setCurrent] = useState(location.pathname);
 
@@ -67,4 +67,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default Navbar;

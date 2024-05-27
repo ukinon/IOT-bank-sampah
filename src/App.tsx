@@ -5,6 +5,7 @@ import NotFound from "./pages/NotFound";
 import Timbang from "./pages/Timbang/Timbang";
 import PriceList from "./pages/PriceList";
 import MemberList from "./pages/MemberList";
+import TransactionPage from "./pages/Transaction";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
           <Route path="/app" element={<Timbang />} />
           <Route path="/price-list" element={<PriceList />} />
           <Route path="/member-list" element={<MemberList />} />
+          <Route path="/transaction" element={<TransactionPage />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
