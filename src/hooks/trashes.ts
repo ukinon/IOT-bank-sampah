@@ -5,7 +5,7 @@ export const useGetTrashes = (page?: string) => {
   const { data, isLoading, error } = useQuery({
     queryFn: () => getTrashes(`${page}`),
     staleTime: Infinity,
-    queryKey: ["trashes"],
+    queryKey: ["trashes", page],
   });
   return { data, isLoading, error };
 };
