@@ -14,7 +14,9 @@ export default function TransactionPage() {
   const newQueryParameters: URLSearchParams = new URLSearchParams(
     currentQueryParameters.toString()
   );
-  const { data } = useGetTransactions(currentQueryParameters.get("page"));
+  const { data } = useGetTransactions(
+    currentQueryParameters.get("page") as string
+  );
 
   const handleDelete = async (id: number) => {
     await axiosInstance.delete(`/transactions/${id}`);
@@ -80,7 +82,7 @@ export default function TransactionPage() {
       <Table
         dataSource={data?.data?.data}
         columns={columns}
-        className="w-[90%] h-[50dvh] overflow-scroll"
+        className="w-[90%] h-[50dvh] overflow-y-scroll"
         pagination={false}
       />
 
