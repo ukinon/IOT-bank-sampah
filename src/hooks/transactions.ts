@@ -1,11 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { getTransactions } from "../apis/transactions";
 
-export const useGetTransactions = () => {
+export const useGetTransactions = (page?: string) => {
+  console.log(page);
   const { data, isLoading, error } = useQuery({
-    queryFn: getTransactions,
+    queryFn: () => getTransactions(`${page}`),
     staleTime: Infinity,
-    queryKey: ["transactions"],
+    enabled: location.search != "",
+    queryKey: ["transactions", page],
   });
 
   return { data, isLoading, error };

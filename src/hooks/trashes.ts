@@ -7,6 +7,5 @@ export const useGetTrashes = () => {
     staleTime: Infinity,
     queryKey: ["trashes"],
   });
-
   return { data, isLoading, error };
 };
