@@ -8,8 +8,8 @@ import { formValue } from "../../../atoms/formValue";
 import { formatToIDR } from "../../../lib/formatToIDR";
 
 export default function Step1() {
-  const { data: trashes } = useGetTrashes();
-  const { data: members } = useGetMembers();
+  const { data: trashes } = useGetTrashes("10000000");
+  const { data: members } = useGetMembers("10000000");
   const [currentValue, setCurrentValue] = useRecoilState(formValue);
   const { Option } = Select;
 

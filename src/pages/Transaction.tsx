@@ -14,7 +14,7 @@ export default function TransactionPage() {
   const newQueryParameters: URLSearchParams = new URLSearchParams(
     currentQueryParameters.toString()
   );
-  const { data } = useGetTransactions(
+  const { data, isLoading } = useGetTransactions(
     currentQueryParameters.get("page") as string
   );
 
@@ -47,7 +47,11 @@ export default function TransactionPage() {
 
     {
       title: "Berat",
-      render: (_, record) => <p>{record.weight} kg</p>,
+      render: (_, record) => (
+        <p>
+          {record.weight} {record.trash.unit}
+        </p>
+      ),
     },
     {
       title: "Harga per unit",
@@ -79,19 +83,35 @@ export default function TransactionPage() {
       <h1 className="text-xl font-semibold md:text-3xl text-primary">
         Daftar Transaksi
       </h1>
-      <Table
-        dataSource={data?.data?.data}
-        columns={columns}
-        className="w-[90%] h-[50dvh] overflow-y-scroll"
-        pagination={false}
-      />
+      {isLoading && (
+        <div className="relative flex items-center justify-center bg-white w-full h-[50dvh] self-center">
+          <div className="flex items-center justify-center space-x-2 bg-white ">
+            <span className="sr-only">Loading...</span>
+            <div className="h-5 w-5 bg-primary rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+            <div className="h-5 w-5 bg-primary rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+            <div className="w-5 h-5 rounded-full bg-primary animate-bounce"></div>
+          </div>
+        </div>
+      )}
+      {data && (
+        <>
+          <Table
+            dataSource={data?.data?.data}
+            columns={columns}
+            className="w-[90%] h-[50dvh] overflow-y-scroll"
+            pagination={false}
+          />
 
-      <Pagination
-        defaultCurrent={parseInt(currentQueryParameters.get("page") as string)}
-        total={data?.data.total}
-        showSizeChanger={false}
-        onChange={(current) => handlePageChange(`${current}`)}
-      />
+          <Pagination
+            defaultCurrent={
+              parseInt(currentQueryParameters.get("page") as string) || 1
+            }
+            total={data?.data.total}
+            showSizeChanger={false}
+            onChange={(current) => handlePageChange(`${current}`)}
+          />
+        </>
+      )}
     </div>
   );
 }
