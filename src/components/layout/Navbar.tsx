@@ -61,7 +61,7 @@ const Navbar: React.FC = () => {
         selectedKeys={[current]}
         mode="horizontal"
         items={items}
-        className="w-1/12 md:w-3/12"
+        className="w-1/12 md:w-3/12 2xl:w-2/12"
       />
     </div>
   );

@@ -8,8 +8,9 @@ import { formValue } from "../../../atoms/formValue";
 import { formatToIDR } from "../../../lib/formatToIDR";
 
 export default function Step1() {
-  const { data: trashes } = useGetTrashes("10000000");
-  const { data: members } = useGetMembers("10000000");
+  const { data: trashes } = useGetTrashes("1&perPage=10000000");
+  const { data: members } = useGetMembers("1&perPage=10000000");
+  console.log(trashes);
   const [currentValue, setCurrentValue] = useRecoilState(formValue);
   const { Option } = Select;
 
@@ -35,9 +36,11 @@ export default function Step1() {
           option?.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
       >
-        {trashes?.data.map((trash: Trash) => (
+        {trashes?.data.data.map((trash: Trash) => (
           <Option value={trash.id} key={trash.id}>
-            {`${trash.name} (${trash.code}) - ${formatToIDR(trash.price)}`}
+            {`${trash.name} (${trash.code}) - ${formatToIDR(trash.price)} / ${
+              trash.unit
+            }`}
           </Option>
         ))}
       </Select>
@@ -55,7 +58,7 @@ export default function Step1() {
           option?.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
       >
-        {members?.data.map((member: Member) => (
+        {members?.data.data.map((member: Member) => (
           <Option value={member.id} key={member.id}>
             {`${member.name} - ${member.address ?? "Tidak ada alamat."}`}
           </Option>
