@@ -77,12 +77,12 @@ const Navbar: React.FC = () => {
 
   return (
     <div className="flex flex-row items-center justify-between w-screen px-8 py-3 md:px-12">
-      <div className="flex flex-row items-center gap-2">
+      <Link to="/" className="flex flex-row items-center gap-2">
         <img src="/logo.png" className="h-8" />
         <h1 className="text-xl font-bold text-primary">
           Sampah<span className="text-black">Mu</span>
         </h1>
-      </div>
+      </Link>
 
       {isAuthenticated && (
         <Menu
