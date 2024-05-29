@@ -23,7 +23,7 @@ export default function Step2Total() {
             onChange={(val) => handleChange(val)}
             type="number"
             defaultValue={currentValue.weight || 0}
-            className="w-[30%] text-8xl text-primary"
+            className="w-[50%] 2xl:w-[30%] text-8xl text-primary"
             min={0}
           />
           <h1 className="text-base font-semibold text-black md:text-xl ">
