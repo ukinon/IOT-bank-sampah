@@ -4,6 +4,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import PageSkeleton from "../loader/Skeleton";
 import { useResetRecoilState } from "recoil";
 import { formValue } from "../../atoms/formValue";
+import { Footer } from "antd/es/layout/layout";
 
 export default function Layout() {
   const location = useLocation();
@@ -21,6 +22,10 @@ export default function Layout() {
           <Outlet />
         </Suspense>
       </div>
+
+      <Footer style={{ textAlign: "center", background: "transparent" }}>
+        SampahMu ©{new Date().getFullYear()}
+      </Footer>
     </div>
   );
 }
