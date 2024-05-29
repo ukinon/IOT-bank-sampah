@@ -102,7 +102,7 @@ export default function Step2Weight() {
       )}
       {connectStatus == "Connected" && (
         <>
-          <h1 className="self-center ml-12 text-5xl 2xl:mt-24 justify-self-center md:text-9xl text-primary">
+          <h1 className="self-center ml-12 text-9xl md:ml-12 2xl:mt-24 justify-self-center text-primary">
             {currentValue.weight || 0}{" "}
             <span className="text-base font-semibold text-black md:text-xl ">
               Kg
