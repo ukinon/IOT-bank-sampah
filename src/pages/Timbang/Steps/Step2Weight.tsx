@@ -10,7 +10,7 @@ interface Subscription {
   qos: 0 | 1 | 2;
 }
 
-export default function Step2() {
+export default function Step2Weight() {
   const [currentValue, setCurrentValue] = useRecoilState(formValue);
   const [client, setClient] = useState<MqttClient | null>(null);
   const [connectStatus, setConnectStatus] = useState("Connect");
@@ -104,7 +104,7 @@ export default function Step2() {
         <>
           <h1 className="self-center ml-12 text-5xl 2xl:mt-24 justify-self-center md:text-9xl text-primary">
             {currentValue.weight || 0}{" "}
-            <span className="text-base font-semibold text-black md:text-xl">
+            <span className="text-base font-semibold text-black md:text-xl ">
               Kg
             </span>
           </h1>

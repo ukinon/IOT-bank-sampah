@@ -5,6 +5,7 @@ import {
   InputNumber,
   Pagination,
   Popconfirm,
+  Select,
   Table,
   Typography,
   message,
@@ -22,7 +23,7 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   editing: boolean;
   dataIndex: string;
   title: string;
-  inputType: "number" | "text";
+  inputType: "number" | "text" | "select";
   record: Trash;
   addon?: string;
   index: number;
@@ -34,11 +35,40 @@ const EditableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = ({
   title,
   inputType,
   children,
+  defaultValue,
   addon,
   ...restProps
 }) => {
+  const { Option } = Select;
+  const datas = [
+    { id: 1, name: "Satuan" },
+    { id: 2, name: "Kg" },
+    { id: 3, name: "g" },
+    { id: 2, name: "mg" },
+  ];
   const inputNode =
-    inputType === "number" ? <InputNumber addonBefore={addon} /> : <Input />;
+    inputType === "number" ? (
+      <InputNumber addonBefore={addon} />
+    ) : inputType === "select" ? (
+      <Select
+        showSearch
+        placeholder="Pilih Jenis Sampah"
+        className="w-full rounded-lg text-primary"
+        defaultValue={defaultValue}
+        optionFilterProp="children"
+        filterOption={(input, option) =>
+          option?.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+        }
+      >
+        {datas?.map((data) => (
+          <Option value={data.name} key={data.id}>
+            {data.name}
+          </Option>
+        ))}
+      </Select>
+    ) : (
+      <Input />
+    );
 
   return (
     <td {...restProps}>
@@ -208,9 +238,15 @@ export default function TrashList() {
       ...col,
       onCell: (record: Trash) => ({
         record,
-        inputType: col.dataIndex === "price" ? "number" : "text",
+        inputType:
+          col.dataIndex === "price"
+            ? "number"
+            : col.dataIndex === "unit"
+            ? "select"
+            : "text",
         dataIndex: col.dataIndex,
         title: col.title,
+        defaultValue: record[col.dataIndex as keyof Trash],
         addon: col.dataIndex.includes("price") ? "Rp" : "",
         editing: isEditing(record),
       }),

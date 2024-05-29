@@ -1,11 +1,13 @@
 import { Button, Steps, message } from "antd";
 import Step1 from "./Steps/Step1";
 import { useState } from "react";
-import Step2 from "./Steps/Step2";
 import { useRecoilState, useResetRecoilState } from "recoil";
 import { formValue } from "../../atoms/formValue";
 import { addTransaction } from "../../apis/transactions";
 import { useMutation } from "@tanstack/react-query";
+import { useGetTrash } from "../../hooks/trashes";
+import Step2Total from "./Steps/Step2Total";
+import Step2Weight from "./Steps/Step2Weight";
 
 export default function Timbang() {
   const [current, setCurrent] = useState(0);
@@ -19,6 +21,7 @@ export default function Timbang() {
       setCurrent(0);
     },
   });
+  const { data } = useGetTrash(currentValue.trash_id);
   const { Step } = Steps;
   const steps = [
     {
@@ -27,7 +30,7 @@ export default function Timbang() {
     },
     {
       title: "Timbang sampahmu",
-      content: <Step2 />,
+      content: data?.data.unit == "Satuan" ? <Step2Total /> : <Step2Weight />,
     },
   ];
 
