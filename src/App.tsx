@@ -8,9 +8,18 @@ import TransactionPage from "./pages/Transaction";
 import Login from "./pages/Login";
 import TrashList from "./pages/TrashList";
 import { useIsAuthenticated } from "./hooks/useIsAuthenticated";
+import { useEffect } from "react";
+import { axiosInstance } from "./lib/axios";
 
 export default function App() {
   const isAuthenticated = useIsAuthenticated();
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      axiosInstance.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${localStorage.getItem("token")}`;
+    }
+  }, []);
   return (
     <BrowserRouter>
       <Routes>

@@ -14,8 +14,7 @@ export default function Login() {
       axiosInstance.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${token}`;
-      console.log("Token stored and header set:", token); // Debug: log token
-      window.location.replace("/app"); // Redirect after setting the header
+      window.location.replace("/app");
     }
   }, [loginSuccess, loginData]);
 
@@ -30,7 +29,7 @@ export default function Login() {
       </h1>
       <Form
         name="normal_login"
-        className="w-[30%] login-form"
+        className="w-[65%] md:w-[30%] login-form"
         initialValues={{ remember: true }}
         onFinish={onFinish}
       >
