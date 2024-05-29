@@ -5,7 +5,7 @@ export const useGetMembers = (page: string) => {
   const { data, isLoading, error } = useQuery({
     queryFn: () => getMembers(`${page}`),
     staleTime: Infinity,
-    queryKey: ["Members", page],
+    queryKey: ["members", page],
   });
 
   return { data, isLoading, error };

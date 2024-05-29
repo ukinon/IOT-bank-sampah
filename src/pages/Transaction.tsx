@@ -29,6 +29,8 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   datas: AnyObject[];
   inputType: "number" | "text" | "select";
   record: Transaction;
+  addonBefore?: string;
+  addonAfter?: string;
   index: number;
 }
 
@@ -40,12 +42,14 @@ const EditableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = ({
   children,
   datas,
   defaultValue,
+  addonBefore,
+  addonAfter,
   ...restProps
 }) => {
   const { Option } = Select;
   const inputNode =
     inputType === "number" ? (
-      <InputNumber />
+      <InputNumber addonBefore={addonBefore} addonAfter={addonAfter} />
     ) : (
       <Select
         showSearch
@@ -130,8 +134,8 @@ export default function TransactionPage() {
   const edit = (record: Transaction) => {
     form.setFieldsValue({
       ...record,
-      trash_id: record.trash.id,
-      member_id: record.member.id,
+      trash_id: record.trash?.id,
+      member_id: record.member?.id,
     });
     setEditingKey(record.id as number);
   };
@@ -153,46 +157,46 @@ export default function TransactionPage() {
       title: "Member",
       dataIndex: "member_id",
       editable: true,
-      width: "30%",
-      render: (_: unknown, record: Transaction) => <p>{record.member.name}</p>,
+      width: "20%",
+      render: (_: unknown, record: Transaction) => <p>{record.member?.name}</p>,
     },
     {
       title: "Sampah",
       dataIndex: "trash_id",
-      width: "30%",
+      width: "20%",
       editable: true,
-      render: (_: unknown, record: Transaction) => <p>{record.trash.name}</p>,
+      render: (_: unknown, record: Transaction) => <p>{record.trash?.name}</p>,
     },
     {
       title: "Berat / Jumlah",
       dataIndex: "weight",
       type: "number",
-      width: "30%",
+      width: "20%",
       editable: true,
       render: (_: unknown, record: Transaction) => (
         <p>
-          {record.weight} {record.trash.unit}
+          {record.weight} {record.trash?.unit}
         </p>
       ),
     },
     {
       title: "Harga per Unit",
       dataIndex: "price_per_unit",
-      width: "30%",
+      width: "20%",
       type: "number",
       editable: true,
       render: (_: unknown, record: Transaction) => (
-        <p className="w-full">{formatToIDR(record.price_per_unit)}</p>
+        <p className="w-full">{formatToIDR(record.price_per_unit as number)}</p>
       ),
     },
     {
       title: "Total Harga",
       dataIndex: "total_price",
       type: "number",
-      width: "30%",
+      width: "20%",
       editable: true,
       render: (_: unknown, record: Transaction) => (
-        <p className="w-full">{formatToIDR(record.total_price)}</p>
+        <p className="w-full">{formatToIDR(record.total_price as number)}</p>
       ),
     },
     {
@@ -205,17 +209,17 @@ export default function TransactionPage() {
           <span className="flex flex-row gap-5">
             <Popconfirm
               title="Batal ubah"
-              description="Apakah anda yakin?"
+              description="Apa kamu yakin?"
               onConfirm={() => cancel()}
-              okText="Ya"
-              cancelText="Tidak"
+              okText="Iya"
+              cancelText="Enggak, deh"
               icon={<QuestionCircleOutlined style={{ color: "red" }} />}
             >
               <Button danger type="primary">
                 Batal
               </Button>
             </Popconfirm>
-            <Typography.Link onClick={() => handleSave(record.id)}>
+            <Typography.Link onClick={() => handleSave(record.id as number)}>
               <Button type="primary">Simpan</Button>
             </Typography.Link>
           </span>
@@ -223,10 +227,10 @@ export default function TransactionPage() {
           <span className="flex flex-row gap-5">
             <Popconfirm
               title="Hapus Sampah"
-              description="Apakah anda yakin?"
+              description="Apa kamu yakin?"
               onConfirm={() => handleDelete(record)}
-              okText="Ya"
-              cancelText="Tidak"
+              okText="Iya"
+              cancelText="Enggak, deh"
               icon={<QuestionCircleOutlined style={{ color: "red" }} />}
             >
               <Button danger>Hapus</Button>
@@ -257,19 +261,21 @@ export default function TransactionPage() {
         inputType: col.type === "number" ? "number" : "select",
         dataIndex: col.dataIndex,
         title: col.title,
+        addonBefore: col.dataIndex.includes("price") ? "Rp" : "",
+        addonAfter: col.dataIndex === "weight" ? record.trash?.unit : "",
         editing: isEditing(record),
         datas:
           col.dataIndex === "trash_id" ? trashes.data.data : members.data.data,
         defaultValue:
-          col.dataIndex === "member_id" ? record.trash.id : record.member.id,
+          col.dataIndex === "member_id" ? record.trash?.id : record.member?.id,
       }),
     };
   });
 
   return (
-    <div className="flex flex-col items-center w-full h-full gap-12">
+    <div className="flex flex-col items-center w-screen h-full gap-12">
       <h1 className="text-xl font-semibold md:text-3xl text-primary">
-        List Harga Sampah
+        List Transaksi
       </h1>
       {isLoading && (
         <div className="relative flex items-center justify-center bg-white w-full h-[50dvh] self-center">

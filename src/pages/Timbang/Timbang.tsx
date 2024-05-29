@@ -2,23 +2,38 @@ import { Button, Steps, message } from "antd";
 import Step1 from "./Steps/Step1";
 import { useState } from "react";
 import Step2 from "./Steps/Step2";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useResetRecoilState } from "recoil";
 import { formValue } from "../../atoms/formValue";
+import { addTransaction } from "../../apis/transactions";
+import { useMutation } from "@tanstack/react-query";
 
 export default function Timbang() {
   const [current, setCurrent] = useState(0);
   const [currentValue] = useRecoilState(formValue);
+  const reset = useResetRecoilState(formValue);
+  const { isPending, mutate } = useMutation({
+    mutationFn: addTransaction,
+    onSuccess: () => {
+      message.success("Berhasil buat transaksi");
+      reset();
+      setCurrent(0);
+    },
+  });
   const { Step } = Steps;
   const steps = [
     {
-      title: "Masukkan Data",
+      title: "Isi data dulu yuk",
       content: <Step1 />,
     },
     {
-      title: "Timbang Sampahmu",
+      title: "Timbang sampahmu",
       content: <Step2 />,
     },
   ];
+
+  const onSubmit = async () => {
+    mutate(currentValue);
+  };
   return (
     <div className="w-[90%] flex flex-col items-center gap-16 pt-12">
       <h1 className="text-xl font-bold md:text-3xl">
@@ -41,6 +56,7 @@ export default function Timbang() {
           {current > 0 && (
             <Button
               style={{ marginRight: 8 }}
+              disabled={isPending}
               onClick={() => setCurrent(current - 1)}
             >
               Sebelumnya
@@ -49,7 +65,9 @@ export default function Timbang() {
           {current < steps.length - 1 && (
             <Button
               disabled={
-                currentValue.trash_type == 0 || currentValue.member_id == 0
+                currentValue.trash_id == 0 ||
+                currentValue.member_id == 0 ||
+                isPending
               }
               type="primary"
               onClick={() => setCurrent(current + 1)}
@@ -60,8 +78,8 @@ export default function Timbang() {
           {current === steps.length - 1 && (
             <Button
               type="primary"
-              disabled={currentValue.weight == 0}
-              onClick={() => message.success("Processing complete!")}
+              disabled={currentValue.weight == 0 || isPending}
+              onClick={onSubmit}
             >
               Selesai
             </Button>

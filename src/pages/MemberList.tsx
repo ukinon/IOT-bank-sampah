@@ -21,6 +21,7 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   editing: boolean;
   dataIndex: string;
   title: string;
+  addon?: string;
   inputType: "number" | "text";
   record: Member;
   index: number;
@@ -32,9 +33,11 @@ const EditableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = ({
   title,
   inputType,
   children,
+  addon,
   ...restProps
 }) => {
-  const inputNode = inputType === "number" ? <InputNumber /> : <Input />;
+  const inputNode =
+    inputType === "number" ? <InputNumber addonBefore={addon} /> : <Input />;
 
   return (
     <td {...restProps}>
@@ -74,7 +77,6 @@ export default function MemberList() {
   const handleSave = async (id: number) => {
     (await form.validateFields()) as Member;
     const val = form.getFieldsValue();
-    console.log(val);
     const response = await axiosInstance.put(`/members/${id}`, val);
     if (response.status === 200) {
       setEditingKey(0);
@@ -141,10 +143,10 @@ export default function MemberList() {
           <span className="flex flex-row gap-5">
             <Popconfirm
               title="Batal ubah"
-              description="Apakah anda yakin?"
+              description="Apa kamu yakin?"
               onConfirm={() => cancel()}
-              okText="Ya"
-              cancelText="Tidak"
+              okText="Iya"
+              cancelText="Enggak, deh"
               icon={<QuestionCircleOutlined style={{ color: "red" }} />}
             >
               <Button danger type="primary">
@@ -159,10 +161,10 @@ export default function MemberList() {
           <span className="flex flex-row gap-5">
             <Popconfirm
               title="Hapus Member"
-              description="Apakah anda yakin?"
+              description="Apa kamu yakin?"
               onConfirm={() => handleDelete(record)}
-              okText="Ya"
-              cancelText="Tidak"
+              okText="Iya"
+              cancelText="Enggak, deh"
               icon={<QuestionCircleOutlined style={{ color: "red" }} />}
             >
               <Button danger>Hapus</Button>
@@ -193,13 +195,14 @@ export default function MemberList() {
         inputType: col.dataIndex === "price" ? "number" : "text",
         dataIndex: col.dataIndex,
         title: col.title,
+        addon: col.dataIndex === "price" ? "Rp" : "",
         editing: isEditing(record),
       }),
     };
   });
 
   return (
-    <div className="flex flex-col items-center w-full h-full gap-12">
+    <div className="flex flex-col items-center w-screen h-full gap-12">
       <h1 className="text-xl font-semibold md:text-3xl text-primary">
         List Member
       </h1>

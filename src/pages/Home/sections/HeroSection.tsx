@@ -10,12 +10,12 @@ export default function HeroSection() {
           Sampah Juga Punya <span className="italic font-medium">Value</span>
         </h1>
         <p className="text-lg font-light md:text-2xl">
-          Jangal asal dibuang, lihat potensinya!
+          Jangal asal dibuang, lihat potensinya yuk!
         </p>
         <Link to="/app" className="flex justify-center w-full md:justify-start">
           <Button
             type="primary"
-            className="flex items-center justify-center w-1/2 p-5 font-semibold text-white md:w-1/3 bg-primary hover:opacity-75"
+            className="flex items-center justify-center w-1/2 p-5 text-base font-semibold text-white 2xl:text-lg md:w-1/3 bg-primary hover:opacity-75"
           >
             Lihat value sampahmu
           </Button>

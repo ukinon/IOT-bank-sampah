@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.39.0",
+    "@types/mqtt": "^2.5.0",
     "antd": "^5.17.3",
     "axios": "^1.7.2",
+    "mqtt": "^5.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.1",

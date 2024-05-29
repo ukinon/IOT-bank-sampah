@@ -5,6 +5,7 @@ import "./index.css";
 import { ConfigProvider, Space } from "antd";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RecoilRoot } from "recoil";
+
 export const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

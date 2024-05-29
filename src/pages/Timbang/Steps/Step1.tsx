@@ -10,7 +10,6 @@ import { formatToIDR } from "../../../lib/formatToIDR";
 export default function Step1() {
   const { data: trashes } = useGetTrashes("1&perPage=10000000");
   const { data: members } = useGetMembers("1&perPage=10000000");
-  console.log(trashes);
   const [currentValue, setCurrentValue] = useRecoilState(formValue);
   const { Option } = Select;
 
@@ -23,15 +22,15 @@ export default function Step1() {
 
   return (
     <div className="flex flex-col items-start w-full gap-8">
-      <h2 className="font-semibold">1. Pilih Jenis Sampahmu</h2>
+      <h2 className="font-semibold">Pilih Jenis Sampahmu</h2>
 
       <Select
         showSearch
         placeholder="Pilih Jenis Sampah"
         className="w-full rounded-lg text-primary"
-        defaultValue={currentValue?.trash_type || undefined}
+        defaultValue={currentValue?.trash_id || undefined}
         optionFilterProp="children"
-        onChange={(value) => handleChange(value, "trash_type")}
+        onChange={(value) => handleChange(value, "trash_id")}
         filterOption={(input, option) =>
           option?.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
@@ -45,7 +44,7 @@ export default function Step1() {
         ))}
       </Select>
 
-      <h2 className="font-semibold">2. Pilih Member</h2>
+      <h2 className="font-semibold">Pilih Member</h2>
 
       <Select
         showSearch

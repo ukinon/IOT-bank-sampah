@@ -24,6 +24,7 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   title: string;
   inputType: "number" | "text";
   record: Trash;
+  addon?: string;
   index: number;
 }
 
@@ -33,9 +34,11 @@ const EditableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = ({
   title,
   inputType,
   children,
+  addon,
   ...restProps
 }) => {
-  const inputNode = inputType === "number" ? <InputNumber /> : <Input />;
+  const inputNode =
+    inputType === "number" ? <InputNumber addonBefore={addon} /> : <Input />;
 
   return (
     <td {...restProps}>
@@ -59,7 +62,7 @@ const EditableCell: React.FC<React.PropsWithChildren<EditableCellProps>> = ({
   );
 };
 
-export default function PriceList() {
+export default function TrashList() {
   const [currentQueryParameters, setSearchParams] = useSearchParams();
   const newQueryParameters: URLSearchParams = new URLSearchParams(
     currentQueryParameters.toString()
@@ -120,27 +123,27 @@ export default function PriceList() {
       title: "Nama Sampah",
       dataIndex: "name",
       editable: true,
-      width: "30%",
+      width: "25%",
       render: (_: unknown, record: Trash) => <p>{record.name}</p>,
     },
     {
       title: "Kode Sampah",
       dataIndex: "code",
-      width: "30%",
+      width: "25%",
       editable: true,
       render: (_: unknown, record: Trash) => <p>{record.code}</p>,
     },
     {
       title: "Unit Sampah",
       dataIndex: "unit",
-      width: "30%",
+      width: "25%",
       editable: true,
       render: (_: unknown, record: Trash) => <p>{record.unit}</p>,
     },
     {
       title: "Harga",
       dataIndex: "price",
-      width: "30%",
+      width: "25%",
       editable: true,
       render: (_: unknown, record: Trash) => (
         <p className="w-full">{formatToIDR(record.price)}</p>
@@ -156,10 +159,10 @@ export default function PriceList() {
           <span className="flex flex-row gap-5">
             <Popconfirm
               title="Batal ubah"
-              description="Apakah anda yakin?"
+              description="Apa kamu yakin?"
               onConfirm={() => cancel()}
-              okText="Ya"
-              cancelText="Tidak"
+              okText="Iya"
+              cancelText="Enggak, deh"
               icon={<QuestionCircleOutlined style={{ color: "red" }} />}
             >
               <Button danger type="primary">
@@ -174,10 +177,10 @@ export default function PriceList() {
           <span className="flex flex-row gap-5">
             <Popconfirm
               title="Hapus Sampah"
-              description="Apakah anda yakin?"
+              description="Apa kamu yakin?"
               onConfirm={() => handleDelete(record)}
-              okText="Ya"
-              cancelText="Tidak"
+              okText="Iya"
+              cancelText="Enggak, deh"
               icon={<QuestionCircleOutlined style={{ color: "red" }} />}
             >
               <Button danger>Hapus</Button>
@@ -208,15 +211,16 @@ export default function PriceList() {
         inputType: col.dataIndex === "price" ? "number" : "text",
         dataIndex: col.dataIndex,
         title: col.title,
+        addon: col.dataIndex.includes("price") ? "Rp" : "",
         editing: isEditing(record),
       }),
     };
   });
 
   return (
-    <div className="flex flex-col items-center w-full h-full gap-12">
+    <div className="flex flex-col items-center w-screen h-full gap-12">
       <h1 className="text-xl font-semibold md:text-3xl text-primary">
-        List Harga Sampah
+        List Sampah
       </h1>
       {isLoading && (
         <div className="relative flex items-center justify-center bg-white w-full h-[50dvh] self-center">
